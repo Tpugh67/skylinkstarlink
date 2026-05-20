@@ -17,7 +17,7 @@ export default function SettingsPage() {
             { label: 'Company name',  value: 'SkyLinkStarLink' },
             { label: 'Owner',         value: 'Terry Pugh'       },
             { label: 'Website',       value: 'skylinkstarlink.com' },
-            { label: 'PipeDesk URL',  value: 'app.pipedesk.io/skylinkstarlink' },
+            { label: 'PipeDesk URL',  value: 'pipedesk.app' },
           ].map(f => (
             <div key={f.label} className="grid grid-cols-3 items-center gap-4">
               <label className="text-sm text-slate-500 col-span-1">{f.label}</label>
