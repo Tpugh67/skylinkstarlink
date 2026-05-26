@@ -1,12 +1,13 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
+  "/login/page": "app/login/page.js",
   "/api/leads/route": "app/api/leads/route.js",
   "/page": "app/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
   "/comms/page": "app/comms/page.js",
   "/proposals/page": "app/proposals/page.js",
-  "/payments/page": "app/payments/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
   "/settings/page": "app/settings/page.js",
+  "/payments/page": "app/payments/page.js",
   "/team/page": "app/team/page.js",
   "/leads/page": "app/leads/page.js"
 }
