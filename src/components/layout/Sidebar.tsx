@@ -5,10 +5,16 @@ import { useAuth } from '@/lib/auth'
 import { Avatar } from '@/components/ui'
 import {
   LayoutDashboard, Filter, FileText, CreditCard, Users,
-  MessageCircle, Settings, Globe, ChevronDown
+  MessageCircle, Settings, Globe, ChevronDown, LogOut
 } from 'lucide-react'
 import clsx from 'clsx'
 import { useState } from 'react'
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 const NAV = [
   { href: '/dashboard',  label: 'Dashboard',  icon: LayoutDashboard, module: 'dashboard'  },
@@ -22,18 +28,21 @@ const NAV = [
 
 export default function BackOfficeSidebar() {
   const pathname = usePathname()
-  const { user, login, logout, can, mockUsers } = useAuth()
-  const [showSwitcher, setShowSwitcher] = useState(false)
+  const { user, can } = useAuth()
+  const [showMenu, setShowMenu] = useState(false)
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    window.location.href = '/login'
+  }
 
   return (
     <aside className="w-56 flex-shrink-0 bg-slate-950 text-white flex flex-col min-h-screen">
-      {/* Brand */}
       <div className="px-4 py-5 border-b border-slate-800">
         <div className="text-sm font-bold tracking-wide text-white">SkyLinkStarLink</div>
         <div className="text-xs text-slate-400 mt-0.5">Back Office</div>
       </div>
 
-      {/* Nav */}
       <nav className="flex-1 px-2 py-4 space-y-0.5">
         {NAV.map(({ href, label, icon: Icon, module }) => {
           if (!can(module)) return null
@@ -56,7 +65,6 @@ export default function BackOfficeSidebar() {
         })}
       </nav>
 
-      {/* Public site link */}
       <div className="px-2 py-2 border-t border-slate-800">
         <Link href="/" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
           <Globe size={15} />
@@ -64,10 +72,9 @@ export default function BackOfficeSidebar() {
         </Link>
       </div>
 
-      {/* User switcher (demo) */}
       <div className="px-3 py-3 border-t border-slate-800 relative">
         <button
-          onClick={() => setShowSwitcher(v => !v)}
+          onClick={() => setShowMenu(v => !v)}
           className="w-full flex items-center gap-2.5 hover:bg-slate-800 rounded-lg px-1 py-1.5 transition-all"
         >
           <Avatar initials={user?.initials ?? '?'} color="blue" size="sm" />
@@ -78,22 +85,15 @@ export default function BackOfficeSidebar() {
           <ChevronDown size={12} className="text-slate-500" />
         </button>
 
-        {showSwitcher && (
+        {showMenu && (
           <div className="absolute bottom-14 left-3 right-3 bg-slate-800 border border-slate-700 rounded-xl overflow-hidden shadow-xl z-50">
-            <div className="px-3 py-2 text-xs text-slate-400 font-medium border-b border-slate-700">Switch role (demo)</div>
-            {mockUsers.map(u => (
-              <button
-                key={u.id}
-                onClick={() => { login(u.id); setShowSwitcher(false) }}
-                className={clsx(
-                  'w-full text-left flex items-center gap-2 px-3 py-2 text-xs transition-all hover:bg-slate-700',
-                  u.id === user?.id ? 'text-sky-400' : 'text-slate-300'
-                )}
-              >
-                <span className="font-medium w-28 truncate">{u.name}</span>
-                <span className="text-slate-500 capitalize">{u.role}</span>
-              </button>
-            ))}
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 px-3 py-3 text-sm text-red-400 hover:bg-slate-700 transition-all"
+            >
+              <LogOut size={14} />
+              Sign out
+            </button>
           </div>
         )}
       </div>
