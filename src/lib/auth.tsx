@@ -1,5 +1,7 @@
 'use client'
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 
 export type UserRole = 'founder' | 'sales' | 'developer' | 'designer' | 'crm' | 'va'
 
@@ -32,7 +34,7 @@ const MOCK_USERS: User[] = [
 interface AuthContextType {
   user: User | null
   login: (userId: string) => void
-  logout: () => void
+  logout: () => Promise<void>
   can: (module: string) => boolean
   mockUsers: User[]
 }
@@ -40,14 +42,42 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(MOCK_USERS[0]) // default: Terry (founder)
+  const [user, setUser] = useState<User | null>(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(async ({ data: { user: authUser } }) => {
+      if (!authUser) return
+      const { data: roleRow } = await supabase
+        .from('user_roles')
+        .select('name, email, role, initials')
+        .eq('id', authUser.id)
+        .single()
+      if (roleRow) {
+        setUser({
+          id: authUser.id,
+          name: roleRow.name,
+          email: roleRow.email,
+          role: roleRow.role as UserRole,
+          initials: roleRow.initials,
+        })
+      }
+    })
+  }, [])
 
   const login = (userId: string) => {
     const found = MOCK_USERS.find(u => u.id === userId)
     if (found) setUser(found)
   }
 
-  const logout = () => setUser(null)
+  const logout = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    setUser(null)
+    router.push('/login')
+    router.refresh()
+  }
 
   const can = (module: string) => {
     if (!user) return false
