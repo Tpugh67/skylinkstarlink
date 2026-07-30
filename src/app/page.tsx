@@ -1,13 +1,26 @@
 'use client'
 import Link from 'next/link'
 import { useState } from 'react'
-import { ArrowRight, Zap, Globe, BarChart3, Users, Star, CheckCircle } from 'lucide-react'
+import { ArrowRight, Zap, Globe, BarChart3, Users, Star, CheckCircle, Building2, Gem, GitBranch, Coffee, Bike, Cpu, BookOpen } from 'lucide-react'
 
 const SERVICES = [
   { icon: Globe,     title: 'Shopify Development',  desc: 'Custom storefronts, apps, and Shopify integrations built for conversion.' },
   { icon: BarChart3, title: 'CRM & Automation',     desc: 'PipeDesk pipelines, lead workflows, and business automation systems.'     },
   { icon: Zap,       title: 'Lead Generation',       desc: 'Outreach campaigns, funnel builds, and multi-platform lead tracking.'      },
   { icon: Users,     title: 'Landing Pages',         desc: 'High-converting pages for services, funnels, and paid campaigns.'         },
+]
+
+// Recovered from an earlier site walkthrough video. Descriptions kept close to
+// the originals; update freely with real results/links as they're confirmed.
+const PROJECTS = [
+  { icon: Building2, title: 'Keystone Acquisitions',   desc: 'Real estate wholesaling CRM with automated lead routing.' },
+  { icon: Gem,        title: 'Aurelius Jewelry',        desc: 'Custom Shopify build for a diamond retailer.' },
+  { icon: Gem,        title: 'GemNet',                  desc: 'B2B diamond marketplace platform.' },
+  { icon: GitBranch,  title: 'PipeDesk',                desc: 'Deal pipeline & CRM tool for sales teams.' },
+  { icon: Coffee,     title: "Sampson's Grind Coffee",  desc: 'E-commerce storefront for a specialty coffee roaster.' },
+  { icon: Bike,       title: 'Ride2Earn',                desc: 'E-bike store with custom ordering flow.' },
+  { icon: Cpu,        title: 'Trek Robotics',            desc: 'Product site for a robotics company.' },
+  { icon: BookOpen,   title: 'Kollel Ohr Shimshon',      desc: 'Site build for a religious study institution.' },
 ]
 
 export default function HomePage() {
@@ -34,6 +47,7 @@ export default function HomePage() {
         <div className="text-lg font-bold tracking-tight">SkyLink<span className="text-sky-400">StarLink</span></div>
         <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
           <a href="#services" className="hover:text-white transition-colors">Services</a>
+          <a href="#portfolio" className="hover:text-white transition-colors">Portfolio</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </div>
         <Link href="/dashboard" className="text-xs px-3.5 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 transition-colors font-medium">Team login →</Link>
@@ -57,6 +71,19 @@ export default function HomePage() {
               <div className="w-10 h-10 bg-sky-600/20 rounded-xl flex items-center justify-center mb-4"><s.icon size={18} className="text-sky-400" /></div>
               <h3 className="font-semibold text-white mb-2">{s.title}</h3>
               <p className="text-sm text-slate-400">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section id="portfolio" className="max-w-5xl mx-auto px-6 py-16">
+        <h2 className="text-2xl font-bold text-center mb-2">Our work</h2>
+        <p className="text-slate-400 text-center mb-12">Real projects, real results.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {PROJECTS.map(p => (
+            <div key={p.title} className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-sky-600/50 transition-colors">
+              <div className="w-10 h-10 bg-sky-600/20 rounded-xl flex items-center justify-center mb-4"><p.icon size={18} className="text-sky-400" /></div>
+              <h3 className="font-semibold text-white mb-2">{p.title}</h3>
+              <p className="text-sm text-slate-400">{p.desc}</p>
             </div>
           ))}
         </div>
