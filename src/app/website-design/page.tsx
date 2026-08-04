@@ -476,8 +476,8 @@ export default function WebsiteDesignPage() {
       </section>
 
       <footer className="border-t border-slate-800 px-8 py-6 text-center text-xs text-slate-500">
-        © 2026 SkyLinkStarLink. All rights reserved.
-      </footer>
+  © 2026 SkyLinkStarLink. All rights reserved. · <Link href="/privacy" className="hover:text-slate-300 underline">Privacy Policy</Link>
+</footer>
     </div>
   )
 }
