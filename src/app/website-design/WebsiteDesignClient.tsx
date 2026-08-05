@@ -161,7 +161,7 @@ function StripeButton({ pkg, label }: { pkg: Package; label: string }) {
     )
   }
   return (
-    
+  <a
       href="#custom-quote"
       className="block w-full text-center py-3 rounded-xl font-semibold bg-sky-600 hover:bg-sky-500 transition-colors text-white"
     >
