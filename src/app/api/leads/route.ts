@@ -1,8 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
+
+const LEADS_LIMIT = 5
+const LEADS_WINDOW_SECONDS = 10 * 60
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = getClientIp(req)
+    const { allowed } = await checkRateLimit(`leads:${ip}`, LEADS_LIMIT, LEADS_WINDOW_SECONDS)
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again in a few minutes.' },
+        { status: 429 }
+      )
+    }
+
     const body = await req.json()
     const { name, email, phone, message, source, service } = body
     if (!name || !email) {

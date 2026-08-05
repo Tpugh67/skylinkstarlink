@@ -3,14 +3,24 @@ import Script from 'next/script'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://skylinkstarlink.com'),
   title: 'SkyLinkStarLink',
   description: 'Next-generation digital agency — web development, CRM, automation & lead generation',
+  openGraph: {
+    title: 'SkyLinkStarLink',
+    description: 'Next-generation digital agency — web development, CRM, automation & lead generation',
+    siteName: 'SkyLinkStarLink',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'SkyLinkStarLink' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SkyLinkStarLink',
+    description: 'Next-generation digital agency — web development, CRM, automation & lead generation',
+    images: ['/og-image.png'],
+  },
 }
 
-// Set these in Netlify's environment variables once you have real IDs.
-// GA4: Google Analytics property "Measurement ID" (starts with G-)
-// Google Ads: Conversion ID from your Google Ads account (starts with AW-)
-// Leave either blank and its script simply won't load — no broken tags.
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
 const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID
 

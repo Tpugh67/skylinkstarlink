@@ -1,18 +1,32 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+import SiteNav from '@/components/layout/SiteNav'
+import SiteFooter from '@/components/layout/SiteFooter'
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Privacy Policy | SkyLinkStarLink',
+  description: 'How SkyLinkStarLink collects, uses, and protects your information.',
+  alternates: {
+    canonical: 'https://skylinkstarlink.com/privacy',
+  },
+  openGraph: {
+    title: 'Privacy Policy | SkyLinkStarLink',
+    description: 'How SkyLinkStarLink collects, uses, and protects your information.',
+    url: 'https://skylinkstarlink.com/privacy',
+    siteName: 'SkyLinkStarLink',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Privacy Policy | SkyLinkStarLink',
+    description: 'How SkyLinkStarLink collects, uses, and protects your information.',
+  },
 }
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-slate-950 text-white">
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-slate-800">
-        <Link href="/" className="text-lg font-bold tracking-tight">
-          SkyLink<span className="text-sky-400">StarLink</span>
-        </Link>
-        <Link href="/" className="text-sm text-slate-400 hover:text-white transition-colors">← Back home</Link>
-      </nav>
+      <SiteNav />
 
       <div className="max-w-2xl mx-auto px-6 py-16">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
@@ -75,9 +89,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </div>
 
-      <footer className="border-t border-slate-800 px-8 py-6 text-center text-xs text-slate-500">
-        © 2026 SkyLinkStarLink. All rights reserved.
-      </footer>
+      <SiteFooter />
     </div>
   )
 }
