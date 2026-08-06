@@ -103,8 +103,25 @@ export default function HomeClient() {
         </div>
       </section>
       <section id="contact" className="max-w-xl mx-auto px-6 py-20 text-center">
-        <h2 className="text-2xl font-bold mb-4">Ready to work together?</h2>
-        <p className="text-slate-400 mb-8">Tell us about your project and we'll get back to you within 24 hours.</p>
+        <h2 className="text-2xl font-bold mb-4">Start Your Project Today</h2>
+        <p className="text-slate-400 mb-8">
+          Select your package, complete checkout, answer a few questions, and we'll begin building your website.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 mb-10">
+          <a
+            href="/start"
+            className="flex-1 text-center py-3.5 rounded-xl font-semibold bg-sky-600 hover:bg-sky-500 transition-colors text-white"
+          >
+            Choose a Package
+          </a>
+          <a
+            href="#contact-form"
+            className="flex-1 text-center py-3.5 rounded-xl font-semibold border border-slate-700 hover:border-slate-500 transition-colors text-white"
+          >
+            Schedule a Consultation
+          </a>
+        </div>
+        <p id="contact-form" className="text-sm text-slate-500 mb-6">Not ready to buy? Send us a message instead.</p>
         {status === 'success' ? (
           <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-8 flex flex-col items-center gap-3">
             <CheckCircle size={32} className="text-green-400" />
