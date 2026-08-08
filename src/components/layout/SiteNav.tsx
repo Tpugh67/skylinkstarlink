@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-type NavItem = 'services' | 'portfolio' | 'contact' | 'website-design'
+type NavItem = 'services' | 'portfolio' | 'contact' | 'website-design' | 'about'
 
 export default function SiteNav({ current }: { current?: NavItem }) {
   const linkClass = 'hover:text-white transition-colors'
@@ -26,6 +26,11 @@ export default function SiteNav({ current }: { current?: NavItem }) {
           <span className={activeClass}>Website Design</span>
         ) : (
           <Link href="/website-design" className={linkClass}>Website Design</Link>
+        )}
+        {current === 'about' ? (
+          <span className={activeClass}>About</span>
+        ) : (
+          <Link href="/about" className={linkClass}>About</Link>
         )}
         {current === 'contact' ? (
           <span className={activeClass}>Contact</span>
