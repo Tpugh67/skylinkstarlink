@@ -413,7 +413,7 @@ export default function WebsiteDesignClient() {
         </p>
       </section>
 
-      <section className="max-w-3xl mx-auto px-6 py-16">
+      <section id="faq" className="max-w-3xl mx-auto px-6 py-16">
         <h2 className="text-2xl font-bold text-center mb-10">Frequently Asked Questions</h2>
         <div className="space-y-2">
           {FAQS.map((faq, i) => (
