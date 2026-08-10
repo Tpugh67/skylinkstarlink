@@ -31,15 +31,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
       </body>
 
-      {GA_ID && (
+    {(GA_ID || GOOGLE_ADS_ID) && (
         <>
-          <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID || GOOGLE_ADS_ID}`}
+            strategy="afterInteractive"
+          />
           <Script id="ga4-init" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${GA_ID}');
+              ${GA_ID ? `gtag('config', '${GA_ID}');` : ''}
               ${GOOGLE_ADS_ID ? `gtag('config', '${GOOGLE_ADS_ID}');` : ''}
             `}
           </Script>
