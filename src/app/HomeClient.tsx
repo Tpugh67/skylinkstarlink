@@ -4,6 +4,12 @@ import { ArrowRight, Zap, Globe, BarChart3, Users, Star, CheckCircle, Building2,
 import SiteNav from '@/components/layout/SiteNav'
 import SiteFooter from '@/components/layout/SiteFooter'
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void
+  }
+}
+
 const SERVICES = [
   { icon: Globe,     title: 'Shopify Development',  desc: 'Custom storefronts, apps, and Shopify integrations built for conversion.' },
   { icon: BarChart3, title: 'CRM & Automation',     desc: 'PipeDesk pipelines, lead workflows, and business automation systems.'     },
@@ -30,21 +36,46 @@ const HERO_STRIP = [
 ]
 
 export default function HomeClient() {
-  const [form, setForm] = useState({ name: '', email: '', service: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' })
   const [status, setStatus] = useState('idle')
 
   const handleSubmit = async () => {
     if (!form.name || !form.email) return
     setStatus('sending')
     try {
+      const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, source: 'website' }),
+        body: JSON.stringify({
+          ...form,
+          source: 'website',
+          utm_source: urlParams?.get('utm_source') || undefined,
+          utm_medium: urlParams?.get('utm_medium') || undefined,
+          utm_campaign: urlParams?.get('utm_campaign') || undefined,
+          landing_page: typeof window !== 'undefined' ? window.location.pathname : undefined,
+        }),
       })
-      if (res.ok) { setStatus('success'); setForm({ name: '', email: '', service: '', message: '' }) }
-      else setStatus('error')
-    } catch { setStatus('error') }
+      const data = await res.json().catch(() => null)
+      if (res.ok) {
+        setStatus('success')
+        setForm({ name: '', email: '', phone: '', service: '', message: '' })
+
+        // Fire Google Ads "Submit lead form" conversion — only after a
+        // confirmed successful save, never before.
+        const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID
+        const leadConversionLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_CONVERSION_LABEL
+        if (typeof window !== 'undefined' && window.gtag && adsId && leadConversionLabel) {
+          window.gtag('event', 'conversion', {
+            send_to: `${adsId}/${leadConversionLabel}`,
+          })
+        }
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -134,6 +165,8 @@ export default function HomeClient() {
             <input id="contact-name" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-sky-500" placeholder="Your name *" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
             <label htmlFor="contact-email" className="sr-only">Email address</label>
             <input id="contact-email" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-sky-500" placeholder="Email address *" type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+            <label htmlFor="contact-phone" className="sr-only">Phone number (optional)</label>
+            <input id="contact-phone" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-sky-500" placeholder="Phone number (optional)" type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
             <label htmlFor="contact-service" className="sr-only">Service you're interested in</label>
             <select id="contact-service" className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white outline-none focus:border-sky-500" value={form.service} onChange={e => setForm(f => ({ ...f, service: e.target.value }))}>
               <option value="">Select a service...</option>
@@ -145,7 +178,7 @@ export default function HomeClient() {
             </select>
             <label htmlFor="contact-message" className="sr-only">Project details</label>
             <textarea id="contact-message" rows={4} className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-slate-500 outline-none focus:border-sky-500 resize-none" placeholder="Tell us about your project..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} />
-            {status === 'error' && <p className="text-red-400 text-xs">Something went wrong. Please try again.</p>}
+            {status === 'error' && <p className="text-red-400 text-xs">We couldn't send your message — please try again, or email us directly.</p>}
             <button onClick={handleSubmit} disabled={status === 'sending' || !form.name || !form.email} className="w-full py-2.5 bg-sky-600 hover:bg-sky-500 disabled:opacity-50 rounded-lg font-semibold text-sm transition-colors">
               {status === 'sending' ? 'Sending...' : 'Send message'}
             </button>
