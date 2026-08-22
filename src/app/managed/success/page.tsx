@@ -5,6 +5,12 @@ import { CheckCircle, ArrowRight, Loader2 } from 'lucide-react'
 import SiteNav from '@/components/layout/SiteNav'
 import SiteFooter from '@/components/layout/SiteFooter'
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void
+  }
+}
+
 function ManagedSuccessInner() {
   const params = useSearchParams()
   const sessionId = params.get('session_id')
@@ -15,12 +21,41 @@ function ManagedSuccessInner() {
       setStatus('error')
       return
     }
-    // Subscription activation is confirmed via the Stripe webhook, which
-    // writes to Supabase asynchronously. We just confirm the checkout
-    // session itself completed before showing success.
-    fetch(`/api/checkout/verify?session_id=${sessionId}`)
+    // Subscription activation itself is confirmed via the Stripe webhook,
+    // which writes to Supabase asynchronously. Here we confirm the checkout
+    // session actually completed payment before showing success or firing
+    // any conversion — a fetch that merely succeeds is not proof of payment.
+    fetch(`/api/checkout/verify?session_id=${encodeURIComponent(sessionId)}`)
       .then(res => res.json())
-      .then(() => setStatus('confirmed'))
+      .then(data => {
+        if (data.paid) {
+          setStatus('confirmed')
+
+          // Fire the Managed Website signup conversion once per session_id,
+          // using the real Stripe session ID as the transaction ID so
+          // duplicate page loads (refresh, back button) can't double-count.
+          const firedKey = `ga_managed_conversion_fired_${sessionId}`
+          const adsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID
+          const conversionLabel = process.env.NEXT_PUBLIC_GOOGLE_ADS_MANAGED_CONVERSION_LABEL
+          if (
+            typeof window !== 'undefined' &&
+            window.gtag &&
+            adsId &&
+            conversionLabel &&
+            !sessionStorage.getItem(firedKey)
+          ) {
+            window.gtag('event', 'conversion', {
+              send_to: `${adsId}/${conversionLabel}`,
+              value: data.amountTotal ?? 99,
+              currency: (data.currency || 'usd').toUpperCase(),
+              transaction_id: sessionId,
+            })
+            sessionStorage.setItem(firedKey, '1')
+          }
+        } else {
+          setStatus('error')
+        }
+      })
       .catch(() => setStatus('error'))
   }, [sessionId])
 
