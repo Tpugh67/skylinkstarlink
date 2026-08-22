@@ -22,6 +22,16 @@ type Tile = {
 
 const TILES: Tile[] = [
   {
+    key: 'managed',
+    name: '$0 Upfront Website',
+    price: '$99/mo',
+    tagline: 'We build, host & maintain it — 6-month initial term',
+    badge: 'New',
+    features: ['No upfront build fee', 'Hosting included', 'Ongoing maintenance & support', 'Buy out anytime for $799'],
+    href: '/managed',
+    cta: 'Get Started',
+  },
+  {
     key: 'launch',
     name: '5-Page Website',
     price: '$799',
