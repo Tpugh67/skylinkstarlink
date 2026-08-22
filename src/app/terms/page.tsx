@@ -23,11 +23,10 @@ export default function TermsPage() {
 
         <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-10 text-sm text-amber-200 space-y-2">
           <p>
-            <strong>This is a draft, not a finished legal document.</strong> It covers the general
-            shape of both service offerings honestly, but the specific numbers and clauses marked{' '}
-            <code className="bg-amber-500/20 px-1 rounded">[TBD]</code> below have been deliberately
-            left unfilled — they were not invented, per your instruction, and need your decisions
-            plus review by a licensed attorney before this page is relied upon or published live.
+            <strong>This is a draft, not a finished legal document.</strong> The specific terms
+            below (initial term, cancellation notice, buyout fee, grace period, liability cap)
+            reflect real business decisions, but this page has not yet been reviewed by a
+            licensed attorney and should not be relied upon or published live until it has.
           </p>
         </div>
 
@@ -87,31 +86,42 @@ export default function TermsPage() {
             <li>Original photos, copy, and other content they supply</li>
           </ul>
 
-          <h3 className="font-semibold text-white mb-2 mt-5">3.3 Cancellation</h3>
+          <h3 className="font-semibold text-white mb-2 mt-5">3.3 Initial Term & Cancellation</h3>
+          <p className="text-slate-300 text-sm leading-relaxed mb-3">
+            The Managed Website plan begins with an initial minimum term of <strong>six (6) months</strong>.
+            The customer may not cancel during this initial term except as otherwise provided by
+            law. After the initial six-month term, the plan automatically converts to a
+            month-to-month subscription.
+          </p>
           <p className="text-slate-300 text-sm leading-relaxed">
-            The customer may cancel the Managed Website plan at any time, subject to:
-            a minimum initial subscription term of <code className="bg-slate-800 px-1 rounded text-amber-300">[TBD]</code>,
-            and a cancellation notice period of <code className="bg-slate-800 px-1 rounded text-amber-300">[TBD]</code>.
-            Upon cancellation, hosting and maintenance services will end, and the website will be
-            taken offline unless the customer completes a buyout under Section 3.4 or transitions
-            to a one-time purchase arrangement.
+            Once month-to-month, the customer may cancel at any time by providing{' '}
+            <strong>thirty (30) days' notice</strong>. Cancellation takes effect at the end of the
+            then-current monthly billing period; SkyLinkStarLink does not provide prorated refunds
+            for partial billing periods. Upon cancellation, hosting and maintenance services will
+            end, and the website will be taken offline unless the customer completes a buyout
+            under Section 3.4.
           </p>
 
           <h3 className="font-semibold text-white mb-2 mt-5">3.4 Buyout / Ownership Transfer</h3>
-          <p className="text-slate-300 text-sm leading-relaxed">
+          <p className="text-slate-300 text-sm leading-relaxed mb-3">
             The customer may, at any time, purchase full ownership of the website design and code
-            for a one-time buyout fee, calculated as{' '}
-            <code className="bg-slate-800 px-1 rounded text-amber-300">[TBD — buyout formula]</code>.
+            for a flat one-time buyout fee of <strong>$799</strong>. This fee is not reduced by
+            prior monthly subscription payments — those payments compensate SkyLinkStarLink for
+            hosting, maintenance, updates, support, and use of the website during the subscription
+            period, not installment payments toward ownership.
+          </p>
+          <p className="text-slate-300 text-sm leading-relaxed">
             Upon payment of the buyout fee, SkyLinkStarLink will transfer ownership of the design
-            and code to the customer, and the Managed Website subscription will convert to a
-            standard hosting/maintenance arrangement or terminate, at the customer's election.
+            and code to the customer, and the subscription will terminate or convert to a standard
+            hosting/maintenance arrangement, at the customer's election.
           </p>
 
           <h3 className="font-semibold text-white mb-2 mt-5">3.5 Non-Payment</h3>
           <p className="text-slate-300 text-sm leading-relaxed">
-            If a subscription payment fails and is not resolved within <code className="bg-slate-800 px-1 rounded text-amber-300">[TBD]</code> days,
-            SkyLinkStarLink reserves the right to suspend hosting for the affected website until
-            payment is resolved.
+            If a subscription payment fails, SkyLinkStarLink will attempt to notify the customer
+            and provide a <strong>fourteen (14) day grace period</strong> to resolve the issue. If
+            payment is not resolved within this period, SkyLinkStarLink reserves the right to
+            suspend — but not delete — the website and related services until payment is resolved.
           </p>
         </section>
 
@@ -138,8 +148,7 @@ export default function TermsPage() {
           <p className="text-slate-300 text-sm leading-relaxed">
             To the maximum extent permitted by law, SkyLinkStarLink's total liability arising out
             of these Terms or the services provided shall not exceed the amount paid by the
-            customer in the <code className="bg-slate-800 px-1 rounded text-amber-300">[TBD]</code> preceding
-            the claim.
+            customer in the <strong>twelve (12) months</strong> preceding the claim.
           </p>
         </section>
 

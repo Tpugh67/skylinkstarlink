@@ -99,7 +99,8 @@ export default function ManagedClient() {
             ))}
           </ul>
           <p className="text-xs text-slate-500 mt-5">
-            Cancel anytime, or buy out your site to own it outright. Full terms apply —
+            After an initial 6-month term, cancel anytime with 30 days' notice — or buy out your
+            site for $799 to own it outright at any time. Full terms apply —
             see our <a href="/terms" className="text-sky-400 hover:text-sky-300 underline">Terms of Service</a>.
           </p>
         </div>
@@ -109,7 +110,7 @@ export default function ManagedClient() {
       <section className="max-w-md mx-auto px-6 pb-24">
         <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
           <h2 className="text-lg font-bold mb-1">Get started today</h2>
-          <p className="text-sm text-slate-400 mb-6">$0 upfront build fee. $99/month, cancel anytime.</p>
+          <p className="text-sm text-slate-400 mb-6">$0 upfront build fee. $99/month, 6-month initial term.</p>
 
           <div className="space-y-3">
             <label htmlFor="managed-name" className="sr-only">Your name</label>
@@ -161,7 +162,8 @@ export default function ManagedClient() {
             </p>
           )}
           <p className="text-xs text-slate-500 text-center mt-3">
-            No upfront build fee. Billing starts today at $99/month — cancel anytime.
+            No upfront build fee. Billing starts today at $99/month for an initial 6-month term,
+            then month-to-month with 30 days' notice to cancel.
           </p>
         </div>
       </section>
